@@ -1,0 +1,45 @@
+from collections import deque
+
+class BioskopQueue:
+    def _init_(self, capacity):
+        self.capacity = capacity
+        self.queue = deque()
+        self.waiting_list = deque()
+    
+    def masuk(self, nama):
+        if len(self.queue) < self.capacity:
+            self.queue.append(nama)
+            print(f"{nama} langsung mendapat kursi")
+        else:
+            self.waiting_list.append(nama)
+            print(f"{nama} harus menunggu")
+    
+    def keluar(self):
+        if self.queue:
+            orang_keluar = self.queue.popleft()
+            print(f"Keluar: {orang_keluar}")
+            
+            if self.waiting_list:
+                orang_masuk = self.waiting_list.popleft()
+                self.queue.append(orang_masuk)
+                print(f"{orang_masuk} masuk menggantikan")
+            
+            return orang_keluar
+        return None
+
+bioskop = BioskopQueue(5)
+penonton = ['Andi', 'Budi', 'Citra', 'Dewi', 'Eka', 'Fajar']
+
+print("=== SIMULASI BIOSKOP ===")
+for orang in penonton:
+    bioskop.masuk(orang)
+
+print(f"\nKursi terisi: {list(bioskop.queue)}")
+print(f"Menunggu: {list(bioskop.waiting_list)}")
+
+print("\n=== DUA ORANG KELUAR ===")
+bioskop.keluar()
+bioskop.keluar()
+
+print(f"\nKursi setelah update: {list(bioskop.queue)}")
+print(f"Sisa waiting list: {list(bioskop.waiting_list)}")
