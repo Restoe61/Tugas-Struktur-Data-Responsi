@@ -1,0 +1,58 @@
+class Node:
+    def _init_(self, data):
+        self.data = data
+        self.next = None
+
+class Playlist:
+    def _init_(self):
+        self.head = None
+    
+    def tambah_di_akhir(self, data):
+        new_node = Node(data)
+        if not self.head:
+            self.head = new_node
+            return
+        
+        current = self.head
+        while current.next:
+            current = current.next
+        current.next = new_node
+    
+    def hapus_lagu(self, data):
+        if not self.head:
+            return
+        
+        if self.head.data == data:
+            self.head = self.head.next
+            return
+        
+        current = self.head
+        while current.next:
+            if current.next.data == data:
+                current.next = current.next.next
+                return
+            current = current.next
+    
+    def tampilkan(self):
+        current = self.head
+        result = []
+        while current:
+            result.append(current.data)
+            current = current.next
+        return " → ".join(result) + " → None"
+
+print("\n=== SIMULASI PLAYLIST ===")
+playlist = Playlist()
+
+for lagu in ["Lagu1", "Lagu2", "Lagu3", "Lagu4"]:
+    playlist.tambah_di_akhir(lagu)
+
+print("Playlist awal:")
+print(playlist.tampilkan())
+
+# Hapus Lagu2 dan tambah Lagu5
+playlist.hapus_lagu("Lagu2")
+playlist.tambah_di_akhir("Lagu5")
+
+print("Playlist akhir:")
+print(playlist.tampilkan())
